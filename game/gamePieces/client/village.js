@@ -139,7 +139,8 @@ Template.village.created = function() {
 			if (Session.get('selected_id') == self.data._id) {
 				remove_all_highlights()
 				draw_village_highlight(Session.get('selected_id'), (self.data.user_id == Meteor.userId()))
-				Session.set('rp_template', 'rp_info_village')
+				Session.set('show_info_panel', true)
+                Session.set('rp_template', 'rp_info_village')
 			}
 		}
 	})

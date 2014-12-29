@@ -25,7 +25,7 @@ Template.game.helpers({
 		}
 		return {}
 	},
-
+    show_info_panel: function() { return Session.get('show_info_panel') },
 	show_summary_panel: function() { return Session.get('show_summary_panel') },
 	show_admin_panel: function() { return Session.get('show_admin_panel') },
 	show_market_panel: function() { return Session.get('show_market_panel') },

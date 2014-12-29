@@ -51,6 +51,10 @@ Template.menu.helpers({
 		if (Session.get('show_store_panel')) { return 'active' } else { return '' }
 	},
 
+    info_active: function() {
+        if (Session.get('show_info_panel')) { return 'active' } else { return '' }
+    },
+
 	tree_active: function() {
 		if (Session.get('show_tree_panel')) { return 'active' } else { return '' }
 	},
@@ -194,6 +198,17 @@ Template.menu.events({
 		}
 	},
 
+	'click #show_info_panel_button': function(event, template) {
+		if (Session.get('show_info_panel')) {
+			Session.set('show_info_panel', false)
+    		Session.set('selected_type', null)
+			Session.set('selected_id', null)
+            remove_all_highlights()
+		} else {
+			Session.set('show_info_panel', true)
+        }
+    },
+
 	'click #show_tree_panel_button': function(event, template) {
 		if (Session.get('show_tree_panel')) {
 			Session.set('show_tree_panel', false)
@@ -206,6 +221,7 @@ Template.menu.events({
 
 
 Template.menu.rendered = function() {
+    Session.setDefault('show_info_panel', true)
 	Session.setDefault('show_summary_panel', true)
 	Session.setDefault('show_help_panel', false)
 	Session.setDefault('show_notifications_panel', false)

@@ -88,6 +88,7 @@ Template.hexes.rendered = function() {
 				remove_all_highlights()
 				highlight_hex_id(Session.get('selected_id'))
 				Session.set('rp_template', 'rp_info_hex')
+                Session.set('show_info_panel', true)
 		}
 	})
 

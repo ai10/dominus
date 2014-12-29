@@ -95,6 +95,7 @@ Template.castle.created = function() {
 				remove_all_highlights()
 				draw_castle_highlight(Session.get('selected_id'), (self.data.user_id == Meteor.userId()))
 				Session.set('rp_template', 'rp_info_castle')
+                Session.set('show_info_panel', true)
 			}
 		}
 	})
