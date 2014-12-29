@@ -25,8 +25,12 @@ Template.game.helpers({
 		}
 		return {}
 	},
+    info_panel_title: function() { 
+         var title = Session.get('selected_type')
+         return title.charAt(0).toUpperCase() + title.slice(1);
+    },
     show_info_panel: function() { return Session.get('show_info_panel') },
-	show_summary_panel: function() { return Session.get('show_summary_panel') },
+    show_summary_panel: function() { return Session.get('show_summary_panel') },
 	show_admin_panel: function() { return Session.get('show_admin_panel') },
 	show_market_panel: function() { return Session.get('show_market_panel') },
 	show_settings_panel: function() { return Session.get('show_settings_panel') },

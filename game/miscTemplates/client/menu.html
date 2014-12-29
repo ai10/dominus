@@ -12,10 +12,12 @@
 			<li class="{{help_active}}"><a href="#" id="show_help_panel_button">Help</a></li>
 			<li class="{{tree_active}}"><a href="#" id="show_tree_panel_button">Tree</a></li>
 			<li class="{{store_active}}"><a href="#" id="show_store_panel_button">Store</a></li>
-			<li class="pull-right {{info_active}}"><a href="#" id="show_info_panel_button">Info</a></li>
-			{{#if currentUser.admin}}
+               {{#if currentUser.admin}}
 				<li class="{{admin_active}}"><a href="#" id="show_admin_panel_button">Admin</a></li>
-			{{/if}}
-		</ul>
+               {{/if}}
+               {{#if info_activated }}
+               <li class="text-danger {{info_active}}"><a href="#" id="show_info_panel_button"><i class="fa fa-close"></i>&nbsp;{{ info_detail }}&nbsp;Detail&nbsp;</a></li>
+               {{/if}}
+       	</ul>
 	</div>
 </template>

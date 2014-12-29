@@ -47,12 +47,21 @@ Template.menu.helpers({
 		if (Session.get('show_admin_panel')) { return 'active' } else { return '' }
 	},
 
-	store_active: function() {
+    store_active: function() {
 		if (Session.get('show_store_panel')) { return 'active' } else { return '' }
 	},
 
     info_active: function() {
         if (Session.get('show_info_panel')) { return 'active' } else { return '' }
+    },
+
+    info_activated: function() {
+        return Session.get('show_info_panel') ? true : false
+    },
+
+    info_detail: function() {
+         var detail = Session.get('selected_type')
+         return detail.charAt(0).toUpperCase() + detail.slice(1);
     },
 
 	tree_active: function() {
