@@ -65,7 +65,7 @@ jobqueue.prototype.empty_queue = function() {
 
 if (Meteor.isServer) {
 	worker = new jobqueue()
-	
+
 	worker.register({
 		check_for_dominus: function(params, done) {
 			check_for_dominus()
@@ -89,7 +89,15 @@ if (Meteor.isServer) {
 			done()
 		},
 
-		// pas user_id
+		// pass user_id
+		updateIncomeStats: function(params, done) {
+			check(params.user_id, String)
+
+			updateIncomeStats(params.user_id)
+			done()
+		},
+
+		// pass user_id
 		update_losses_worth: function(params, done) {
 			check(params.user_id, String)
 

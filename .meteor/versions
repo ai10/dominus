@@ -13,8 +13,10 @@ callback-hook@1.0.2
 check@1.0.3
 coffeescript@1.0.5
 d3@1.0.0
+d3js:d3@3.4.13
 danimal:accounts-templates@1.0.2
-danimal:hx@1.0.1
+danimal:hx@1.0.5
+danimal:readymanager@1.0.1
 ddp@1.0.13
 deps@1.0.6
 ejson@1.0.5
@@ -22,6 +24,7 @@ email@1.0.5
 facts@1.0.3
 fastclick@1.0.2
 follower-livedata@1.0.3
+fortawesome:fontawesome@4.2.0_2
 geojson-utils@1.0.2
 html-tools@1.0.3
 htmljs@1.0.3
@@ -54,14 +57,15 @@ mizzao:timesync@0.2.2
 mizzao:user-status@0.6.3
 mobile-status-bar@1.0.2
 momentjs:moment@2.8.4
-mongo@1.0.10
+mongo@1.0.11
 mongo-livedata@1.0.7
 mrgalaxy:stripe@1.5.6
 mrt:cookies@0.3.0
 mrt:modernizr-meteor@2.6.2
 mrt:nvd3js@0.1.0
 mrt:underscore-string-latest@2.3.3
-natestrauser:font-awesome@4.2.0
+nemo64:bootstrap@3.3.1_1
+nemo64:bootstrap-data@3.3.1_1
 npm-bcrypt@0.7.7
 observe-sequence@1.0.4
 ordered-dict@1.0.2

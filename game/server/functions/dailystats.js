@@ -69,10 +69,7 @@ update_networth = function(user_id) {
 		return false
 	}
 
-	var begin = moment().startOf('day').toDate()
-	var end = moment().add(1, 'days').startOf('day').toDate()
-
-	Dailystats.upsert({user_id: user_id, created_at: {$gte: begin, $lt: end}}, {$setOnInsert: {user_id:user_id, created_at: new Date()}, $set: {networth:worth.total, updated_at:new Date()}})
+	Dailystats.upsert({user_id: user_id, created_at: {$gte: s.statsBegin, $lt: s.statsEnd}}, {$setOnInsert: {user_id:user_id, created_at: new Date()}, $set: {networth:worth.total, updated_at:new Date()}})
 	Meteor.users.update(user_id, {$set: {networth: worth.total}})
 }
 
@@ -86,10 +83,7 @@ update_num_allies = function(user_id) {
 			var num_allies_below = 0
 		}
 
-		var begin = moment().startOf('day').toDate()
-		var end = moment().add(1, 'days').startOf('day').toDate()
-
-		Dailystats.upsert({user_id: user_id, created_at: {$gte: begin, $lt: end}}, {$setOnInsert: {user_id:user_id, created_at: new Date()}, $set: {num_allies:num_allies_below, updated_at:new Date()}})
+		Dailystats.upsert({user_id: user_id, created_at: {$gte: s.statsBegin, $lt: s.statsEnd}}, {$setOnInsert: {user_id:user_id, created_at: new Date()}, $set: {num_allies:num_allies_below, updated_at:new Date()}})
 	}
 }
 
@@ -134,15 +128,57 @@ update_losses_worth = function(user_id) {
 
 		check(num, validNumber)
 
-		var begin = moment().startOf('day').toDate()
-		var end = moment().add(1, 'days').startOf('day').toDate()
-
-		Dailystats.upsert({user_id: user_id, created_at: {$gte: begin, $lt: end}}, {$setOnInsert: {user_id:user_id, created_at: new Date()}, $set: {losses_worth:worth.total, losses_num:num, updated_at:new Date()}})
+		Dailystats.upsert({user_id: user_id, created_at: {$gte: s.statsBegin, $lt: s.statsEnd}}, {$setOnInsert: {user_id:user_id, created_at: new Date()}, $set: {losses_worth:worth.total, losses_num:num, updated_at:new Date()}})
 		Meteor.users.update(user_id, {$set: {losses_worth: worth.total, losses_num: num}})
 	}
 }
 
 
+
+
+updateIncomeStats = function(user_id) {
+	var user = Meteor.users.findOne(user_id, {fields: {res_update:1}})
+	if (user) {
+		var income = {}
+		var vassalIncome = {}
+
+		_.each(s.resource.types_plus_gold, function(type) {
+			income[type] = user.res_update[type]
+			vassalIncome[type] = user.res_update.from_vassal[type]
+		})
+
+		Dailystats.upsert({
+				user_id: user_id,
+				created_at: {$gte: s.statsBegin, $lt: s.statsEnd}
+			}, {
+				$setOnInsert: {user_id:user_id, created_at: new Date()},
+				$set: {inc:income, vassalInc:vassalIncome, updated_at:new Date()}
+			}
+		)
+	}
+}
+
+
+
+updateIncomeRank = function() {
+	var start_time = new Date()
+
+	var rank = 1
+	Meteor.users.find({}, {sort: {income:-1}}).forEach(function(user) {
+
+		Dailystats.upsert({
+			user_id: user._id,
+			created_at: {$gte: s.statsBegin, $lt: s.statsEnd}
+		}, {
+			$setOnInsert: {user_id:user._id, created_at: new Date()},
+			$set: {incomeRank:rank, updated_at:new Date()}
+		})
+
+		rank++
+	})
+
+	record_job_stat('updateIncomeRank', new Date() - start_time)
+}
 
 
 
@@ -151,6 +187,24 @@ init_dailystats_for_new_user = function(user_id) {
 		user_id: user_id,
 		created_at: new Date(),
 		updated_at: new Date(),
+		inc: {
+			gold:0,
+			grain:0,
+			lumber:0,
+			ore:0,
+			wool:0,
+			clay:0,
+			glass:0,
+		},
+		vassalInc: {
+			gold:0,
+			grain:0,
+			lumber:0,
+			ore:0,
+			wool:0,
+			clay:0,
+			glass:0,
+		},
 		income: {
 			gold: 0,
 			grain: 0,
@@ -172,7 +226,8 @@ init_dailystats_for_new_user = function(user_id) {
 		networth: 0,
 		num_allies: 0,
 		losses_worth:0,
-		losses_num:0
+		losses_num:0,
+		incomeRank: Meteor.users.find().count()
 	}
 	Dailystats.insert(stat)
 }
